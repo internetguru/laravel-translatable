@@ -1,0 +1,31 @@
+{
+    "name": "internetguru/laravel-translatable",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^11.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.5",
+        "phpunit/php-code-coverage": "^11.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Internetguru\\LaravelTranslatable\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "petrzpav",
+            "email": "pavel.petrzela@internetguru.cz"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Internetguru\\LaravelTranslatable\\LaravelTranslatableServiceProvider"
+            ]
+        }
+    }
+}
