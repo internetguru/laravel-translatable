@@ -1,0 +1,41 @@
+{
+    "name": "internetguru/laravel-translatable",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^11.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.5",
+        "phpunit/php-code-coverage": "^11.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "InternetGuru\\LaravelTranslatable\\": "src/",
+            "Database\\Factories\\InternetGuru\\LaravelTranslatable\\Models\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "App\\": "tests/src/App/",
+            "Database\\": "tests/src/Database/",
+            "InternetGuru\\LaravelTranslatable\\": "src/",
+            "InternetGuru\\LaravelTranslatable\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "authors": [
+        {
+            "name": "petrzpav",
+            "email": "pavel.petrzela@internetguru.cz"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "InternetGuru\\LaravelTranslatable\\LaravelTranslatableServiceProvider"
+            ]
+        }
+    }
+}
