@@ -12,7 +12,17 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Internetguru\\LaravelTranslatable\\": "src/"
+            "InternetGuru\\LaravelTranslatable\\": "src/",
+            "Database\\Factories\\InternetGuru\\LaravelTranslatable\\Models\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "App\\": "tests/src/App/",
+            "Database\\": "tests/src/Database/",
+            "InternetGuru\\LaravelTranslatable\\": "src/",
+            "InternetGuru\\LaravelTranslatable\\Database\\Factories\\": "database/factories/"
         }
     },
     "authors": [
@@ -24,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Internetguru\\LaravelTranslatable\\LaravelTranslatableServiceProvider"
+                "InternetGuru\\LaravelTranslatable\\LaravelTranslatableServiceProvider"
             ]
         }
     }
