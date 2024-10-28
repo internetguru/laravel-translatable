@@ -33,6 +33,58 @@ docker run --rm laravel-translatable
 # Both steps combined
 docker build -t laravel-translatable . && docker run --rm laravel-translatable
 ```
+
+## Usage
+
+1. Add the `Translatable` trait to your Eloquent model:
+
+    ```php
+    use InternetGuru\Translatable\Translatable;
+
+    class Room extends Model
+    {
+        use Translatable;
+    }
+    ```
+2. Define the translatable attributes in the model. Do not use `$fillable` for translatable attributes:
+
+    ```php
+    protected $translatable = ['name'];
+    ```
+3. Use translatable attributes:
+
+    ```php
+    app()->setLocale('en');
+    app()->setFallbackLocale('en');
+
+    $room = new Room();
+    $room->save();
+
+    // No translation set
+    echo $room->name; // null
+
+    $room->name = 'Living Room';
+    echo $room->name; // Living Room
+
+    app()->setLocale('cs');
+    $room->name = 'Obývací pokoj';
+    echo $room->name; // Obývací pokoj
+
+    app()->setLocale('en');
+    echo $room->name; // Living Room
+
+    app()->setLocale('cs');
+    echo $room->name; // Obývací pokoj
+
+    // Fallback to the fallback locale
+    app()->setLocale('de');
+    echo $room->name; // Living Room
+
+    // Fallback to the first translation if fallback locale not found
+    app()->setFallbackLocale('fr');
+    echo $room->name; // Living Room
+    ```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
