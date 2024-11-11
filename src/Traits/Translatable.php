@@ -73,19 +73,19 @@ trait Translatable
         }
 
         $locale = app()->getLocale();
-        $fallbackLocale = app()->getFallbackLocale();
         $this->setTranslation($key, $locale, $value);
-        Cache::forget($this->getTraslationCacheKey($key, $locale, $fallbackLocale));
 
         return $this;
     }
 
     public function setTranslation($attribute, $locale, $value)
     {
+        $fallbackLocale = app()->getFallbackLocale();
         $this->translations()->updateOrCreate(
             ['attribute' => $key, 'locale' => $locale],
             ['value' => $value]
         );
+        Cache::forget($this->getTraslationCacheKey($key, $locale, $fallbackLocale));
     }
 
     /**
