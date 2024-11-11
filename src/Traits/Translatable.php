@@ -82,10 +82,10 @@ trait Translatable
     {
         $fallbackLocale = app()->getFallbackLocale();
         $this->translations()->updateOrCreate(
-            ['attribute' => $key, 'locale' => $locale],
+            ['attribute' => $attribute, 'locale' => $locale],
             ['value' => $value]
         );
-        Cache::forget($this->getTraslationCacheKey($key, $locale, $fallbackLocale));
+        Cache::forget($this->getTraslationCacheKey($attribute, $locale, $fallbackLocale));
     }
 
     /**
