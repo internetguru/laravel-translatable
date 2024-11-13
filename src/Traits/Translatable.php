@@ -57,7 +57,6 @@ trait Translatable
         }
 
         return $this->translate($key, app()->getLocale(), app()->getFallbackLocale());
-
     }
 
     /**
@@ -93,6 +92,6 @@ trait Translatable
      */
     private function getTraslationCacheKey($attribute, $locale, $fallbackLocale)
     {
-        return "translation_{$this->id}_{$attribute}_{$locale}_{$fallbackLocale}";
+        return 'translation_' . get_class($this) . "_{$this->id}_{$attribute}_{$locale}_{$fallbackLocale}";
     }
 }
