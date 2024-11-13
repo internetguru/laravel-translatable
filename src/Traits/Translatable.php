@@ -79,11 +79,15 @@ trait Translatable
 
     public function setTranslation($attribute, $locale, $value)
     {
+        if (! $value) {
+            $this->translations()->updateOrCreate(
+                ['attribute' => $attribute, 'locale' => $locale],
+                ['value' => $value]
+            );
+        } else {
+            $this->translations()->where('attribute', $attribute)->where('locale', $locale)->delete();
+        }
         $fallbackLocale = app()->getFallbackLocale();
-        $this->translations()->updateOrCreate(
-            ['attribute' => $attribute, 'locale' => $locale],
-            ['value' => $value]
-        );
         Cache::forget($this->getTraslationCacheKey($attribute, $locale, $fallbackLocale));
     }
 
