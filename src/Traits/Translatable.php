@@ -79,7 +79,7 @@ trait Translatable
 
     public function setTranslation($attribute, $locale, $value)
     {
-        if (! $value) {
+        if ($value) {
             $this->translations()->updateOrCreate(
                 ['attribute' => $attribute, 'locale' => $locale],
                 ['value' => $value]
