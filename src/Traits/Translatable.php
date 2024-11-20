@@ -61,10 +61,11 @@ trait Translatable
     /**
      * Return translations accroding to config.languages
      */
-    public function getAttributeTranslations($key)
+    public function getAttributeTranslations($key, $useFallbackLocale = true)
     {
         foreach (config('languages') as $locale => $language) {
-            $translations[$locale] = $this->translate($key, $locale, app()->getFallbackLocale());
+            $fallbackLocale = $useFallbackLocale ? app()->getFallbackLocale() : $locale;
+            $translations[$locale] = $this->translate($key, $locale, $fallbackLocale);
         }
 
         return $translations;
