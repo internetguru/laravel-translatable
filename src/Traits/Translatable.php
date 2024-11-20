@@ -19,7 +19,7 @@ trait Translatable
      */
     public function translate($attribute, $locale, $fallbackLocale)
     {
-        $cacheKey = $this->getTraslationCacheKey($attribute, $locale, $fallbackLocale);
+        $cacheKey = $this->getTraslationCacheKey($attribute, $locale);
 
         return Cache::remember($cacheKey, 60, function () use ($attribute, $locale, $fallbackLocale) {
             $translations = $this->translations()->where('attribute', $attribute)->get();
@@ -100,14 +100,14 @@ trait Translatable
             $this->translations()->where('attribute', $attribute)->where('locale', $locale)->delete();
         }
         $fallbackLocale = app()->getFallbackLocale();
-        Cache::forget($this->getTraslationCacheKey($attribute, $locale, $fallbackLocale));
+        Cache::forget($this->getTraslationCacheKey($attribute, $locale));
     }
 
     /**
      * Get the cache key for the translation.
      */
-    private function getTraslationCacheKey($attribute, $locale, $fallbackLocale)
+    private function getTraslationCacheKey($attribute, $locale)
     {
-        return 'translation_' . get_class($this) . "_{$this->id}_{$attribute}_{$locale}_{$fallbackLocale}";
+        return 'translation_' . get_class($this) . "_{$this->id}_{$attribute}_{$locale}";
     }
 }

@@ -79,7 +79,7 @@ class TranslatableTest extends TestCase
 
         Cache::shouldReceive('forget')
             ->once()
-            ->with("translation_App\\Models\\Room_{$room->id}_description_fr_en");
+            ->with("translation_App\\Models\\Room_{$room->id}_description_fr");
 
         $room->setAttribute('description', 'Nouvelle Description Traduit');
         $this->assertDatabaseHas('translations', [
