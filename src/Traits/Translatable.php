@@ -15,7 +15,6 @@ trait Translatable
     /**
      * Translate the given attribute to the given locale.
      * Fallback to the given fallback locale.
-     * Fallback to any other first locale.
      * Fallback to null.
      */
     public function translate($attribute, $locale, $fallbackLocale)
@@ -34,7 +33,7 @@ trait Translatable
                 return $translation->value;
             }
 
-            return $translations->first()->value;
+            return null;
         });
     }
 
