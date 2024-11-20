@@ -59,6 +59,18 @@ trait Translatable
     }
 
     /**
+     * Return translations accroding to config.languages
+     */
+    public function getAttributeTranslations($key)
+    {
+        foreach (config('languages') as $locale => $language) {
+            $translations[$locale] = $this->translate($key, $locale, app()->getFallbackLocale());
+        }
+
+        return $translations;
+    }
+
+    /**
      * Set the attribute to the model.
      * Save translation if attribute is translatable.
      */
