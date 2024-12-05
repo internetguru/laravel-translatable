@@ -7,48 +7,28 @@ use InternetGuru\LaravelTranslatable\Models\Translation;
 
 trait Translatable
 {
+    const NULL_PLACEHOLDER = '__NULL__';
+
+    const TRANSLATABLE_CACHE_TTL = 60 * 60 * 24;
+
+    protected bool $isInitializing = true;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->isInitializing = false;
+    }
+
     public function translations()
     {
         return $this->morphMany(Translation::class, 'translatable');
     }
 
-    /**
-     * Translate the given attribute to the given locale.
-     * Fallback to the given fallback locale.
-     * Fallback to null.
-     */
-    public function translate($attribute, $locale, $fallbackLocale)
-    {
-        $cacheKey = $this->getTraslationCacheKey($attribute, $locale, $fallbackLocale);
-
-        return Cache::remember($cacheKey, 60, function () use ($attribute, $locale, $fallbackLocale) {
-            $translations = $this->translations()->where('attribute', $attribute)->get();
-            if ($translations->isEmpty()) {
-                return null;
-            }
-            if ($translation = $translations->where('locale', $locale)->first()) {
-                return $translation->value;
-            }
-            if ($translation = $translations->where('locale', $fallbackLocale)->first()) {
-                return $translation->value;
-            }
-
-            return null;
-        });
-    }
-
-    /**
-     * Get all translatable attributes.
-     */
     public function getTranslatableAttributes()
     {
         return $this->translatable ?? [];
     }
 
-    /**
-     * Get the attribute from the model.
-     * Use translation if exists.
-     */
     public function getAttribute($key)
     {
         if (! in_array($key, $this->getTranslatableAttributes())) {
@@ -58,9 +38,6 @@ trait Translatable
         return $this->translate($key, app()->getLocale(), app()->getFallbackLocale());
     }
 
-    /**
-     * Return translations accroding to config.languages
-     */
     public function getAttributeTranslations($key, $useFallbackLocale = true)
     {
         foreach (config('languages') as $locale => $language) {
@@ -71,10 +48,6 @@ trait Translatable
         return $translations;
     }
 
-    /**
-     * Set the attribute to the model.
-     * Save translation if attribute is translatable.
-     */
     public function setAttribute($key, $value)
     {
         if (! in_array($key, $this->getTranslatableAttributes())) {
@@ -84,9 +57,46 @@ trait Translatable
         }
 
         $locale = app()->getLocale();
-        $this->setTranslation($key, $locale, $value);
+        if ($this->isInitializing) {
+            $this->setTranslation($key, $locale, $value);
+        }
 
         return $this;
+    }
+
+    public function translate($attribute, $locale, $fallbackLocale)
+    {
+        $cacheKey = $this->getTranslationCacheKey($attribute, $locale, $fallbackLocale);
+
+        $cachedValue = Cache::get($cacheKey);
+        // use NULL_PLACEHOLDER to cache null values
+        if ($cachedValue === self::NULL_PLACEHOLDER) {
+            return null;
+        }
+        if ($cachedValue !== null) {
+            return $cachedValue;
+        }
+
+        $value = $this->computeTranslation($attribute, $locale, $fallbackLocale);
+        Cache::put($cacheKey, $value === null ? self::NULL_PLACEHOLDER : $value, self::TRANSLATABLE_CACHE_TTL);
+
+        return $value;
+    }
+
+    protected function computeTranslation($attribute, $locale, $fallbackLocale)
+    {
+        $translations = $this->translations()->where('attribute', $attribute)->get();
+        if ($translations->isEmpty()) {
+            return null;
+        }
+        if ($translation = $translations->where('locale', $locale)->first()) {
+            return $translation->value;
+        }
+        if ($translation = $translations->where('locale', $fallbackLocale)->first()) {
+            return $translation->value;
+        }
+
+        return null;
     }
 
     public function setTranslation($attribute, $locale, $value)
@@ -99,15 +109,13 @@ trait Translatable
         } else {
             $this->translations()->where('attribute', $attribute)->where('locale', $locale)->delete();
         }
+
         $fallbackLocale = app()->getFallbackLocale();
-        Cache::forget($this->getTraslationCacheKey($attribute, $locale, $fallbackLocale));
-        Cache::forget($this->getTraslationCacheKey($attribute, $locale, $locale));
+        Cache::forget($this->getTranslationCacheKey($attribute, $locale, $fallbackLocale));
+        Cache::forget($this->getTranslationCacheKey($attribute, $locale, $locale));
     }
 
-    /**
-     * Get the cache key for the translation.
-     */
-    private function getTraslationCacheKey($attribute, $locale, $fallbackLocale)
+    protected function getTranslationCacheKey($attribute, $locale, $fallbackLocale)
     {
         return 'translation_' . get_class($this) . "_{$this->id}_{$attribute}_{$locale}_{$fallbackLocale}";
     }
