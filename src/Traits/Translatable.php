@@ -57,7 +57,8 @@ trait Translatable
         }
 
         $locale = app()->getLocale();
-        if ($this->isInitializing) {
+        // do not set translations into database during initialization phase
+        if (! $this->isInitializing) {
             $this->setTranslation($key, $locale, $value);
         }
 
@@ -67,8 +68,8 @@ trait Translatable
     public function translate($attribute, $locale, $fallbackLocale)
     {
         $cacheKey = $this->getTranslationCacheKey($attribute, $locale, $fallbackLocale);
-
         $cachedValue = Cache::get($cacheKey);
+
         // use NULL_PLACEHOLDER to cache null values
         if ($cachedValue === self::NULL_PLACEHOLDER) {
             return null;
