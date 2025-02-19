@@ -27,7 +27,7 @@ class TranslatableTest extends TestCase
         $this->assertNull($room->translate('description', 'fr', 'en'));
     }
 
-    public function test_translate_function_fallback_to_first()
+    public function test_translate_function_not_fallback_to_first()
     {
         $room = Room::factory()->create();
         app()->setLocale('fr');
@@ -38,7 +38,7 @@ class TranslatableTest extends TestCase
 
         app()->setLocale('en');
         $this->assertEquals('Description Traduit', $room->translate('description', 'fr', 'en'));
-        $this->assertEquals('Description Traduit', $room->translate('description', 'en', 'en'));
+        $this->assertEquals(null, $room->translate('description', 'en', 'en'));
     }
 
     public function test_implicit_get_attribute_with_translation()
@@ -79,7 +79,10 @@ class TranslatableTest extends TestCase
 
         Cache::shouldReceive('forget')
             ->once()
-            ->with("translation_{$room->id}_description_fr_en");
+            ->with("translation_App\\Models\\Room_{$room->id}_description_fr_fr");
+        Cache::shouldReceive('forget')
+            ->once()
+            ->with("translation_App\\Models\\Room_{$room->id}_description_fr_en");
 
         $room->setAttribute('description', 'Nouvelle Description Traduit');
         $this->assertDatabaseHas('translations', [
