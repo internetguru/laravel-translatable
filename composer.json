@@ -1,6 +1,8 @@
 {
     "name": "internetguru/laravel-translatable",
     "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "laravel/framework": "^11.0"
     },
