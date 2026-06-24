@@ -4,12 +4,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "laravel/framework": "^11.0"
+        "laravel/framework": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
         "laravel/pint": "^1.18",
-        "orchestra/testbench": "^9.5",
-        "phpunit/php-code-coverage": "^11.0"
+        "orchestra/testbench": "^9.5|^10.0|^11.0",
+        "phpunit/php-code-coverage": "^11.0|^12.0|^13.0"
     },
     "license": "MIT",
     "autoload": {
