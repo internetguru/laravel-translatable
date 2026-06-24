@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Support Laravel 12 and 13.
+
 ## [0.2.3] - 2026-02-25
 
 ### Fixed
