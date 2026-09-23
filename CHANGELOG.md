@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Guidelines for AI agents: `php artisan boost:update` adds how to use this package to the instructions of an application using Laravel Boost.
+
+### Fixed
+
+- The readme names the package `internetguru/laravel-translatable` and the trait `InternetGuru\LaravelTranslatable\Traits\Translatable`, as they really are.
+
 ## [0.3.0] - 2026-06-24
 
 _Stable release based on [0.3.0-rc.1]._
@@ -56,6 +66,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 - New changelog file.
 
+[Unreleased]: https://https://github.com/internetguru/laravel-translatable/compare/staging...dev
 [0.3.0]: https://https://github.com/internetguru/laravel-translatable/compare/v0.2.3...v0.3.0
 [0.3.0-rc.1]: https://github.com/internetguru/laravel-translatable/releases/tag/v0.2.3
 [0.2.3]: https://https://github.com/internetguru/laravel-translatable/compare/v0.2.2...v0.2.3
