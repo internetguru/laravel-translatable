@@ -14,9 +14,9 @@ A Laravel package for translating Eloquent model attributes.
 
     ```sh
     # First time installation
-    composer require internetguru/translatable
+    composer require internetguru/laravel-translatable
     # For updating the package
-    composer update internetguru/translatable
+    composer update internetguru/laravel-translatable
     ```
 
 ## Run Tests Locally
@@ -39,7 +39,7 @@ docker build -t laravel-translatable . && docker run --rm laravel-translatable
 1. Add the `Translatable` trait to your Eloquent model:
 
     ```php
-    use InternetGuru\Translatable\Translatable;
+    use InternetGuru\LaravelTranslatable\Traits\Translatable;
 
     class Room extends Model
     {
