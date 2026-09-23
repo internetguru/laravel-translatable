@@ -5,8 +5,6 @@ A Laravel package for translating Eloquent model attributes.
 | Branch  | Status | Code Coverage |
 | :------------- | :------------- | :------------- |
 | Main | ![tests](https://github.com/internetguru/laravel-translatable/actions/workflows/test.yml/badge.svg?branch=main) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-translatable/refs/heads/badges/main-coverage.svg) |
-| Staging | ![tests](https://github.com/internetguru/laravel-translatable/actions/workflows/test.yml/badge.svg?branch=staging) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-translatable/refs/heads/badges/staging-coverage.svg) |
-| Dev | ![tests](https://github.com/internetguru/laravel-translatable/actions/workflows/test.yml/badge.svg?branch=dev) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-translatable/refs/heads/badges/dev-coverage.svg) |
 
 ## Installation
 
